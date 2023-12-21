@@ -57,12 +57,12 @@ function createTodoElement(item) {
     itemEl.append(actionsEl);
 
     checkbox.addEventListener("change", () => {
-        item.compete = checkbox.checked;
+        item.competed = checkbox.checked;
     
-        if(item.compete) {
-            itemEl.classList.add("complete");
+        if(item.competed) {
+            itemEl.classList.add("completed");
         } else {
-            itemEl.classList.remove("complete");
+            itemEl.classList.remove("completed");
         }
         
         saveToLocalStorage();
@@ -89,7 +89,6 @@ function createTodoElement(item) {
         todos = todos.filter(t => t.id != item.id);
     
         itemEl.remove();
-
         saveToLocalStorage();
     })
 
@@ -101,3 +100,24 @@ function saveToLocalStorage() {
 
     localStorage.setItem("my_todos", data);
 }
+
+function loadFromLocalStorage() {
+    const data = localStorage.getItem("my_todos");
+
+    if(data) {
+        todos = JSON.parse(data);
+    }
+}
+
+function displayTodos() {
+    loadFromLocalStorage();
+
+    for(let i = 0; i < todos.length; i++) {
+        const item = todos[i];
+
+        const { itemEl } = createTodoElement(item);
+        list.append(itemEl);
+    }
+}
+
+displayTodos();
