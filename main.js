@@ -9,7 +9,7 @@ function createNewTodo() {
     const item = {
         id: new Date().getTime(),
         text: "",
-        compete: false
+        competed: false
     }
     todos.unshift(item);
 
@@ -25,9 +25,9 @@ function createTodoElement(item) {
 
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.checked = item.compete;
+    checkbox.checked = item.competed;
 
-    if(item.compete) {
+    if(item.competed) {
         itemEl.classList.add("completed");
     }
 
@@ -54,34 +54,35 @@ function createTodoElement(item) {
     itemEl.append(inputEl);
     itemEl.append(actionsEl);
 
+    checkbox.addEventListener("change", () => {
+        item.compete = checkbox.checked;
+    
+        if(item.compete) {
+            itemEl.classList.add("complete");
+        } else {
+            itemEl.classList.remove("complete");
+        }
+    });
+    
+    inputEl.addEventListener("input", () => {
+        item.text = inputEl.value;
+    });
+    
+    inputEl.addEventListener("blur", () => {
+       inputEl.setAttribute("disabled", ""); 
+    });
+    
+    editBtnEl.addEventListener("click", () => {
+        inputEl.removeAttribute("disabled");
+        inputEl.focus();
+    });
+    
+    removeBtnEl.addEventListener("click", () => {
+        todos = todos.filter(t => t.id != item.id);
+    
+        itemEl.remove();
+    })
+
     return { itemEl, inputEl, editBtnEl, removeBtnEl };
 }
 
-checkbox.addEventListener("change", () => {
-    item.compete = checkbox.checked;
-
-    if(item.compete) {
-        itemEl.classList.add("complete");
-    } else {
-        itemEl.classList.remove("complete");
-    }
-});
-
-inputEl.addEventListener("input", () => {
-    item.text = inputEl.value;
-});
-
-inputEl.addEventListener("blur" () => {
-   inputEl.setAttribute("disabled", ""); 
-});
-
-editBtnEl.addEventListener("click", () => {
-    inputEl.removeAttribute("disabled");
-    inputEl.focus();
-});
-
-removeBtnEl.addEventListener("click", () => {
-    todos = todos.filter(t => t.id != item.id);
-
-    item.remove();
-})
