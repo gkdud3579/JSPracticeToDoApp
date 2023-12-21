@@ -9,7 +9,7 @@ function createNewTodo() {
     const item = {
         id: new Date().getTime(),
         text: "",
-        competed: false
+        compete: false
     }
     todos.unshift(item);
 
@@ -56,3 +56,32 @@ function createTodoElement(item) {
 
     return { itemEl, inputEl, editBtnEl, removeBtnEl };
 }
+
+checkbox.addEventListener("change", () => {
+    item.compete = checkbox.checked;
+
+    if(item.compete) {
+        itemEl.classList.add("complete");
+    } else {
+        itemEl.classList.remove("complete");
+    }
+});
+
+inputEl.addEventListener("input", () => {
+    item.text = inputEl.value;
+});
+
+inputEl.addEventListener("blur" () => {
+   inputEl.setAttribute("disabled", ""); 
+});
+
+editBtnEl.addEventListener("click", () => {
+    inputEl.removeAttribute("disabled");
+    inputEl.focus();
+});
+
+removeBtnEl.addEventListener("click", () => {
+    todos = todos.filter(t => t.id != item.id);
+
+    item.remove();
+})
