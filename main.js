@@ -17,6 +17,8 @@ function createNewTodo() {
     list.prepend(itemEl);
     inputEl.removeAttribute("disabled");
     inputEl.focus();
+
+    saveToLocalStorage();
 }
 
 function createTodoElement(item) {
@@ -62,14 +64,20 @@ function createTodoElement(item) {
         } else {
             itemEl.classList.remove("complete");
         }
+        
+        saveToLocalStorage();
     });
     
     inputEl.addEventListener("input", () => {
         item.text = inputEl.value;
+
+        saveToLocalStorage();
     });
     
     inputEl.addEventListener("blur", () => {
-       inputEl.setAttribute("disabled", ""); 
+       inputEl.setAttribute("disabled", "");
+       
+       saveToLocalStorage();
     });
     
     editBtnEl.addEventListener("click", () => {
@@ -81,8 +89,15 @@ function createTodoElement(item) {
         todos = todos.filter(t => t.id != item.id);
     
         itemEl.remove();
+
+        saveToLocalStorage();
     })
 
     return { itemEl, inputEl, editBtnEl, removeBtnEl };
 }
 
+function saveToLocalStorage() {
+    const data = JSON.stringify(todos);
+
+    localStorage.setItem("my_todos", data);
+}
