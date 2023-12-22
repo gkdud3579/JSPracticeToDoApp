@@ -3,6 +3,17 @@ const createBtn = document.getElementById("create-btn");
 
 let todos = [];
 
+window.onload = function () {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const today = `Date: ${year} - ${month} - ${day}`;
+    const todayDateElement = document.querySelector('.date');
+    todayDateElement.textContent = today;
+    loadTodoList();
+}
+
 createBtn.addEventListener('click', createNewTodo);
 
 function createNewTodo() {
