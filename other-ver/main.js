@@ -14,7 +14,7 @@ function createNewTodo() {
 
     todos.unshift(item);
     const { itemEl, inputEl } = createTodoElement(item);
-    // list.prepend(itemEl);
+    list.prepend(itemEl);
     inputEl.removeAttribute("disabled");
     inputEl.focus();
 }
